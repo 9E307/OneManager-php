@@ -550,7 +550,7 @@ function main($path)
     
     if (getConfig('admin')=='') return install();
     config_oauth();
-    if ($_SERVER['admin']) if ($_GET['AddDisk']||$_GET['authorization_code']) return get_refresh_token();
+    if ($_SERVER['admin']) if (isset($_GET['AddDisk'])||isset($_GET['authorization_code'])) return get_refresh_token();
     $refresh_token = getConfig('refresh_token');
     //if (!$refresh_token) return get_refresh_token();
     if (!$refresh_token) {
@@ -702,7 +702,7 @@ function adminoperate($path)
     $path1 = path_format($_SERVER['list_path'] . path_format($path));
     if (substr($path1,-1)=='/') $path1=substr($path1,0,-1);
     $tmparr['statusCode'] = 0;
-    if ($_GET['rename_newname']!=$_GET['rename_oldname'] && $_GET['rename_newname']!='') {
+    if (isset($_GET['rename_newname'])&&$_GET['rename_newname']!=$_GET['rename_oldname'] && $_GET['rename_newname']!='') {
         // rename 重命名
         $oldname = spurlencode($_GET['rename_oldname']);
         $oldname = path_format($path1 . '/' . $oldname);
@@ -712,7 +712,7 @@ function adminoperate($path)
         //savecache('path_' . $path1, json_decode('{}',true), 1);
         return output($result['body'], $result['stat']);
     }
-    if ($_GET['delete_name']!='') {
+    if (isset($_GET['delete_name'])) {
         // delete 删除
         $filename = spurlencode($_GET['delete_name']);
         $filename = path_format($path1 . '/' . $filename);
@@ -721,7 +721,7 @@ function adminoperate($path)
         //savecache('path_' . $path1, json_decode('{}',true), 1);
         return output($result['body'], $result['stat']);
     }
-    if ($_GET['operate_action']==getconstStr('encrypt')) {
+    if (isset($_GET['operate_action'])&&$_GET['operate_action']==getconstStr('encrypt')) {
         // encrypt 加密
         if (getConfig('passfile')=='') return message(getconstStr('SetpassfileBfEncrypt'),'',403);
         if ($_GET['encrypt_folder']=='/') $_GET['encrypt_folder']=='';
@@ -733,7 +733,7 @@ function adminoperate($path)
         savecache('path_' . $path1 . '/?password', '', 1);
         return output($result['body'], $result['stat']);
     }
-    if ($_GET['move_folder']!='') {
+    if (isset($_GET['move_folder'])) {
         // move 移动
         $moveable = 1;
         if ($path == '/' && $_GET['move_folder'] == '/../') $moveable=0;
@@ -753,7 +753,7 @@ function adminoperate($path)
             return output('{"error":"'.getconstStr('CannotMove').'"}', 403);
         }
     }
-    if ($_GET['copy_name']!='') {
+    if (isset($_GET['copy_name'])) {
         // copy 复制
         $filename = spurlencode($_GET['copy_name']);
         $filename = path_format($path1 . '/' . $filename);
@@ -789,7 +789,7 @@ function adminoperate($path)
             //savecache('path_' . $path2, json_decode('{}',true), 1);
         return output($result['body'].json_encode($result['Location']), $result['stat']);
     }
-    if ($_POST['editfile']!='') {
+    if (isset($_POST['editfile'])) {
         // edit 编辑
         $data = $_POST['editfile'];
         /*TXT一般不会超过4M，不用二段上传
@@ -802,7 +802,7 @@ function adminoperate($path)
         $resultarry = json_decode($result,true);
         if (isset($resultarry['error'])) return message($resultarry['error']['message']. '<hr><a href="javascript:history.back(-1)">'.getconstStr('Back').'</a>','Error',403);
     }
-    if ($_GET['create_name']!='') {
+    if (isset($_GET['create_name'])) {
         // create 新建
         if ($_GET['create_type']=='file') {
             $filename = spurlencode($_GET['create_name']);
@@ -816,7 +816,7 @@ function adminoperate($path)
         //savecache('path_' . $path1, json_decode('{}',true), 1);
         return output($result['body'], $result['stat']);
     }
-    if ($_GET['RefreshCache']) {
+    if (isset($_GET['RefreshCache'])) {
         $path1 = path_format($_SERVER['list_path'] . path_format($path));
         savecache('path_' . $path1 . '/?password', '', 1);
         return message('<meta http-equiv="refresh" content="2;URL=./">', getconstStr('RefreshCache'), 302);
