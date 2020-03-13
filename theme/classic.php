@@ -86,7 +86,7 @@
         </select>
     </div>
 <?php
-    if ($_SERVER['needUpdate']) { ?>
+    if (isset($_SERVER['needUpdate'])&&$_SERVER['needUpdate']) { ?>
     <div style='position:absolute;'><font color='red'><?php echo getconstStr('NeedUpdate'); ?></font></div>
 <?php } ?>
     <h1 class="title">
@@ -202,12 +202,14 @@
                     </div>
                 </div>
 <?php           } elseif (isset($files['folder'])) {
-                    $filenum = $_POST['filenum'];
-                    if (!$filenum and $files['folder']['page']) $filenum = ($files['folder']['page']-1)*200;
-                    $readme = false; ?>
+                    if (isset($_POST['filenum'])) $filenum = $_POST['filenum'];
+                    if (!$filenum and isset($files['folder']['page'])) $filenum = ($files['folder']['page']-1)*200;
+                    $head = false;
+                    $readme = false;
+                    $pdfurl = false;?>
                 <table class="list-table" id="list-table">
                     <tr id="tr0">
-                        <th class="file"><a onclick="sortby('a');"><?php echo getconstStr('File'); ?></a><?php if ($_SERVER['USER']!='qcloud') { ?>&nbsp;&nbsp;&nbsp;<button onclick="showthumbnails(this);"><?php echo getconstStr('ShowThumbnails'); ?></button><?php } ?><button onclick="CopyAllDownloadUrl();"><?php echo getconstStr('CopyAllDownloadUrl'); ?></button></th>
+                        <th class="file"><a onclick="sortby('a');"><?php echo getconstStr('File'); ?></a><?php if (!(isset($_SERVER['USER'])&&$_SERVER['USER']=='qcloud')) { ?>&nbsp;&nbsp;&nbsp;<button onclick="showthumbnails(this);"><?php echo getconstStr('ShowThumbnails'); ?></button><?php } ?><button onclick="CopyAllDownloadUrl();"><?php echo getconstStr('CopyAllDownloadUrl'); ?></button></th>
                         <th class="updated_at" width="25%"><a onclick="sortby('time');"><?php echo getconstStr('EditTime'); ?></a></th>
                         <th class="size" width="15%"><a onclick="sortby('size');"><?php echo getconstStr('Size'); ?></a></th>
                     </tr>
@@ -515,7 +517,7 @@
         <div style="margin:50px">
             <a onclick="operatediv_close('login')" class="operatediv_close"><?php echo getconstStr('Close'); ?></a>
 	        <center>
-	            <form action="<?php echo $_GET['preview']?'?preview&':'?';?>admin" method="post">
+	            <form action="<?php echo isset($_GET['preview'])?'?preview&':'?';?>admin" method="post">
 		        <input id="login_input" name="password1" type="password" placeholder="<?php echo getconstStr('InputPassword'); ?>">
 		        <input type="submit" value="<?php echo getconstStr('Login'); ?>">
 	            </form>
@@ -572,7 +574,7 @@
         $readme.innerHTML = marked(document.getElementById('readme-md').innerText);
     }
 <?php
-    if ($_GET['preview']) { //is preview mode. 在预览时处理 ?>
+    if (isset($_GET['preview'])) { //is preview mode. 在预览时处理 ?>
     var $url = document.getElementById('url');
     if ($url) {
         $url.innerHTML = location.protocol + '//' + location.host + $url.innerHTML;
