@@ -1119,9 +1119,10 @@ function get_refresh_token()
 {
     global $constStr;
     global $CommonEnv;
+    $envs = '';
     foreach ($CommonEnv as $env) $envs .= '\'' . $env . '\', ';
     $url = path_format($_SERVER['PHP_SELF'] . '/');
-    if ($_GET['authorization_code'] && isset($_GET['code'])) {
+    if (isset($_GET['authorization_code']) && isset($_GET['code'])) {
         $_SERVER['disktag'] = $_COOKIE['disktag'];
         config_oauth();
         $tmp = curl_request($_SERVER['oauth_url'] . 'token', 'client_id=' . $_SERVER['client_id'] .'&client_secret=' . $_SERVER['client_secret'] . '&grant_type=authorization_code&requested_token_use=on_behalf_of&redirect_uri=' . $_SERVER['redirect_uri'] .'&code=' . $_GET['code']);
@@ -1151,7 +1152,7 @@ function get_refresh_token()
         return message('<pre>' . json_encode(json_decode($tmp['body']), JSON_PRETTY_PRINT) . '</pre>', $tmp['stat']);
         //return message('<pre>' . json_encode($ret, JSON_PRETTY_PRINT) . '</pre>', 500);
     }
-    if ($_GET['install1']) {
+    if (isset($_GET['install1'])) {
         $_SERVER['disk_oprating'] = $_COOKIE['disktag'];
         $_SERVER['disktag'] = $_COOKIE['disktag'];
         config_oauth();
@@ -1170,7 +1171,7 @@ function get_refresh_token()
             return message('something error, try after a few seconds.', 'retry', 201);
         }
     }
-    if ($_GET['install0']) {
+    if (isset($_GET['install0'])) {
         if ($_POST['disktag_add']!='' && ($_POST['Onedrive_ver']=='MS' || $_POST['Onedrive_ver']=='CN' || $_POST['Onedrive_ver']=='MSC')) {
             if (in_array($_COOKIE['disktag'], $CommonEnv)) {
                 return message('Do not input ' . $envs . '<br><button onclick="location.href = location.href;">'.getconstStr('Refresh').'</button><script>document.cookie=\'disktag=; path=/\';</script>', 'Error', 201);
