@@ -518,8 +518,8 @@ function main($path)
     } else {
         $adminloginpage = getConfig('adminloginpage');
     }
-    if ($_GET[$adminloginpage]) {
-        if ($_GET['preview']) {
+    if (isset($_GET[$adminloginpage])) {
+        if (isset($_GET['preview'])) {
             $url = $_SERVER['PHP_SELF'] . '?preview';
         } else {
             $url = path_format($_SERVER['PHP_SELF'] . '/');
@@ -533,13 +533,13 @@ function main($path)
         }
     }
     if (getConfig('admin')!='')
-        if ( $_COOKIE['admin']==md5(getConfig('admin')) || $_POST['password1']==getConfig('admin') ) {
+        if ( (isset($_COOKIE['admin'])&&$_COOKIE['admin']==md5(getConfig('admin'))) || (isset($_POST['password1'])&&$_POST['password1']==getConfig('admin')) ) {
             $_SERVER['admin']=1;
             $_SERVER['needUpdate'] = needUpdate();
         } else {
             $_SERVER['admin']=0;
         }
-    if ($_GET['setup'])
+    if (isset($_GET['setup']))
         if ($_SERVER['admin']) {
             // setup Environments. 设置，对环境变量操作
             return EnvOpt($_SERVER['needUpdate']);
@@ -608,7 +608,7 @@ function main($path)
         if ($_SERVER['ajax']) return output(getconstStr('RefreshtoLogin'),401);
     }
     $_SERVER['ishidden'] = passhidden($path);
-    if ($_GET['thumbnails']) {
+    if (isset($_GET['thumbnails'])) {
         if ($_SERVER['ishidden']<4) {
             if (in_array(strtolower(substr($path, strrpos($path, '.') + 1)), $exts['img'])) {
                 return get_thumbnails_url($path);
@@ -631,7 +631,7 @@ function main($path)
             } else return output('',404);
         } else return output('',401);
     }
-    if (isset($files['file']) && !$_GET['preview']) {
+    if (isset($files['file']) && !isset($_GET['preview'])) {
         // is file && not preview mode
         if ( $_SERVER['ishidden']<4 || (!!getConfig('downloadencrypt')&&$files['name']!=getConfig('passfile')) ) return output('', 302, [ 'Location' => $files['@microsoft.graph.downloadUrl'] ]);
     }
@@ -1111,7 +1111,7 @@ function render_list($path = '', $files = '')
     Github ： https://github.com/qkqpttgf/OneManager-php
 -->' . ob_get_clean();
     if (isset($htmlpage['statusCode'])) return $htmlpage;
-    if ($_SERVER['Set-Cookie']!='') return output($html, $statusCode, [ 'Set-Cookie' => $_SERVER['Set-Cookie'], 'Content-Type' => 'text/html' ]);
+    if (isset($_SERVER['Set-Cookie'])) return output($html, $statusCode, [ 'Set-Cookie' => $_SERVER['Set-Cookie'], 'Content-Type' => 'text/html' ]);
     return output($html,$statusCode);
 }
 
