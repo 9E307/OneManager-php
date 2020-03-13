@@ -41,12 +41,12 @@ function getConfig($str, $disktag = '')
     global $InnerEnv;
     global $Base64Env;
     //include 'config.php';
-    if ($disktag=='') $disktag = $_SERVER['disktag'];
     $s = file_get_contents('config.php');
     $configs = substr($s, 18, -2);
     if ($configs!='') {
         $envs = json_decode($configs, true);
         if (in_array($str, $InnerEnv)) {
+            if ($disktag=='') $disktag = $_SERVER['disktag'];
             if (isset($envs[$disktag][$str])) {
                 if (in_array($str, $Base64Env)) return equal_replace($envs[$disktag][$str],1);
                 else return $envs[$disktag][$str];
