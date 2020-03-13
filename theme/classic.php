@@ -824,7 +824,7 @@
         location.href=location.protocol + "//" + location.host + "<?php echo path_format($_SERVER['base_path'] . '/' . $path );?>" ;
     }
 <?php }
-    if ($files['folder']['childCount']>200) { // more than 200. 有下一页 ?>
+    if (isset($files['folder']['childCount'])&&$files['folder']['childCount']>200) { // more than 200. 有下一页 ?>
     function nextpage(num) {
         document.getElementById('pagenum').value=num;
         document.getElementById('nextpageform').submit();
