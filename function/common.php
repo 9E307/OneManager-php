@@ -1249,7 +1249,7 @@ function EnvOpt($needUpdate = 0)
     asort($ShowedCommonEnv);
     asort($ShowedInnerEnv);
     $html = '<title>OneManager '.getconstStr('Setup').'</title>';
-    if ($_POST['updateProgram']==getconstStr('updateProgram')) {
+    if (isset($_POST['updateProgram'])&&$_POST['updateProgram']==getconstStr('updateProgram')) {
         $response = OnekeyUpate();
         if (api_error($response)) {
             $html = api_error_msg($response);
@@ -1262,7 +1262,7 @@ function EnvOpt($needUpdate = 0)
         }
         return message($html, $title);
     }
-    if ($_POST['submit1']) {
+    if (isset($_POST['submit1'])) {
         $_SERVER['disk_oprating'] = '';
         foreach ($_POST as $k => $v) {
             if (in_array($k, $ShowedCommonEnv)||in_array($k, $ShowedInnerEnv)||$k=='disktag_del' || $k=='disktag_add') {
@@ -1292,7 +1292,7 @@ function EnvOpt($needUpdate = 0)
         }
         return message($html, $title);
     }
-    if ($_GET['preview']) {
+    if (isset($_GET['preview'])) {
         $preurl = $_SERVER['PHP_SELF'] . '?preview';
     } else {
         $preurl = path_format($_SERVER['PHP_SELF'] . '/');
@@ -1300,7 +1300,7 @@ function EnvOpt($needUpdate = 0)
     $html .= '
 <a href="'.$preurl.'">'.getconstStr('Back').'</a>&nbsp;&nbsp;&nbsp;<a href="'.$_SERVER['base_path'].'">'.getconstStr('Back').getconstStr('Home').'</a><br>
 <a href="https://github.com/qkqpttgf/OneManager-php">Github</a><br>';
-    if (!($_SERVER['USER']==='qcloud'||$_SERVER['HEROKU_APP_DIR']==='/app')) {
+    if (!((isset($_SERVER['USER'])&&$_SERVER['USER']==='qcloud')||(isset($_SERVER['HEROKU_APP_DIR'])&&$_SERVER['HEROKU_APP_DIR']==='/app'))) {
         $html .= '
 In VPS can not update by a click!<br>';
     } else {
