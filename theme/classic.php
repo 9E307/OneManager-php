@@ -204,6 +204,7 @@
 <?php           } elseif (isset($files['folder'])) {
                     if (isset($_POST['filenum'])) $filenum = $_POST['filenum'];
                     if (!isset($filenum) and isset($files['folder']['page'])) $filenum = ($files['folder']['page']-1)*200;
+                    else $filenum = 0;
                     $head = false;
                     $readme = false;
                     $pdfurl = false;?>
