@@ -133,6 +133,10 @@
             </div>
             <div class="list-body-container">
 <?php
+    $head = false;
+    $readme = false;
+    $pdfurl = false;
+    $DPvideo = false;
     if ($_SERVER['is_guestup_path']&&!$_SERVER['admin']) { ?>
                 <div id="upload_div" style="margin:10px">
                 <center>
@@ -155,8 +159,6 @@
                     </div>
                     <div style="margin: 24px">
 <?php               $ext = strtolower(substr($path, strrpos($path, '.') + 1));
-                    $DPvideo = '';
-                    $pdfurl = '';
                     if (in_array($ext, $exts['img'])) {
                         echo '                        <img src="' . $files['@microsoft.graph.downloadUrl'] . '" alt="' . substr($path, strrpos($path, '/')) . '" onload="if(this.offsetWidth>document.getElementById(\'url\').offsetWidth) this.style.width=\'100%\';" />
 ';
@@ -204,10 +206,7 @@
 <?php           } elseif (isset($files['folder'])) {
                     if (isset($_POST['filenum'])) $filenum = $_POST['filenum'];
                     if (!isset($filenum) and isset($files['folder']['page'])) $filenum = ($files['folder']['page']-1)*200;
-                    else $filenum = 0;
-                    $head = false;
-                    $readme = false;
-                    $pdfurl = false;?>
+                    else $filenum = 0; ?>
                 <table class="list-table" id="list-table">
                     <tr id="tr0">
                         <th class="file"><a onclick="sortby('a');"><?php echo getconstStr('File'); ?></a><?php if (!(isset($_SERVER['USER'])&&$_SERVER['USER']=='qcloud')) { ?>&nbsp;&nbsp;&nbsp;<button onclick="showthumbnails(this);"><?php echo getconstStr('ShowThumbnails'); ?></button><?php } ?><button onclick="CopyAllDownloadUrl();"><?php echo getconstStr('CopyAllDownloadUrl'); ?></button></th>
