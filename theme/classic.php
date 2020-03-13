@@ -203,7 +203,7 @@
                 </div>
 <?php           } elseif (isset($files['folder'])) {
                     if (isset($_POST['filenum'])) $filenum = $_POST['filenum'];
-                    if (!$filenum and isset($files['folder']['page'])) $filenum = ($files['folder']['page']-1)*200;
+                    if (!isset($filenum) and isset($files['folder']['page'])) $filenum = ($files['folder']['page']-1)*200;
                     $head = false;
                     $readme = false;
                     $pdfurl = false;?>
