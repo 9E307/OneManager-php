@@ -5,7 +5,7 @@ gitsource='https://github.com/qkqpttgf/OneManager-php'
 OneManagerPath=`cd $(dirname $0);pwd -P`
 cd ${OneManagerPath}
 
-git clone ${gitsource}
+git clone -b test ${gitsource}
 \mv -b config.php OneManager-php/
 \mv -b OneManager-php/* ./
 \mv -b OneManager-php/.[^.]* ./
