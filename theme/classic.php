@@ -70,7 +70,7 @@
             <li><a onclick="showdiv(event,'encrypt','');"><ion-icon name="lock"></ion-icon><?php echo getconstStr('encrypt'); ?></a></li>
             <li><a href="?RefreshCache"><ion-icon name="refresh"></ion-icon><?php echo getconstStr('RefreshCache'); ?></a></li>
 <?php   } ?>
-            <li><a href="<?php echo $_GET['preview']?'?preview&':'?';?>setup"><ion-icon name="settings"></ion-icon><?php echo getconstStr('Setup'); ?></a></li>
+            <li><a href="<?php echo isset($_GET['preview'])?'?preview&':'?';?>setup"><ion-icon name="settings"></ion-icon><?php echo getconstStr('Setup'); ?></a></li>
             <li><a onclick="logout()"><ion-icon name="log-out"></ion-icon><?php echo getconstStr('Logout'); ?></a></li>
         </ul></li>
 <?php
@@ -409,7 +409,7 @@
     <div id="mask" class="mask" style="display:none;"></div>
 <?php
     if ($_SERVER['admin']) {
-        if (!$_GET['preview']) { ?>
+        if (!isset($_GET['preview'])) { ?>
     <div style="word-break: break-all;word-wrap: break-word;">
         <div id="rename_div" class="operatediv" style="display:none">
             <div>
@@ -1065,7 +1065,7 @@
         document.cookie = "admin=; path=/";
         location.href = location.href;
     }
-<?php   if (!$_GET['preview']) {?>
+<?php   if (!isset($_GET['preview'])) {?>
     function showdiv(event,action,num) {
         var $operatediv=document.getElementsByName('operatediv');
         for ($i=0;$i<$operatediv.length;$i++) {
